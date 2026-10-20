@@ -1,0 +1,30 @@
+BioEnglish Academy - Vérification technique préliminaire
+
+{
+  "source_sha256": "22d8a75b546988be03db29a4dc682331de0313a9fd4999304e6386408df12862",
+  "scripts_extracted": 16,
+  "json_data_preserved": 12,
+  "js_syntax_errors": [],
+  "html_bytes": 7333546,
+  "modules": [
+    "module-01.js",
+    "module-02.js",
+    "module-03.js",
+    "module-04.js",
+    "module-05.js",
+    "module-06.js",
+    "module-07.js",
+    "module-08.js",
+    "module-09.js",
+    "module-10.js",
+    "module-11.js",
+    "module-12.js",
+    "module-13.js",
+    "module-14.js",
+    "module-15.js",
+    "module-16.js"
+  ],
+  "limitations": "Static structural and syntax checks only. Not antivirus cleared or functionally browser tested. Original inline base64 images remain."
+}
+
+NE PAS PUBLIER sans analyse antivirus et tests fonctionnels.
