@@ -624,6 +624,15 @@ body[data-bea-view="feedback"] > section#bea-feedback{display:block!important}
 <style id="bea-hero-action-real-buttons-fix">
 header.bea-hero .bea-hero-actions{pointer-events:auto!important;z-index:100!important}
 header.bea-hero .bea-hero-actions button{position:relative!important;pointer-events:auto!important;cursor:pointer!important;visibility:visible!important;opacity:1!important}
+</style><style id="bea-no-duplicate-baked-buttons">
+/* Buttons are already painted into the hero image. Transparent click zones
+   retain the artwork's one and only visible pair. */
+header.bea-hero .bea-hero-actions{left:13.45%!important;top:48.3%!important;gap:.35vw!important;z-index:150!important}
+header.bea-hero .bea-hero-actions button{display:block!important;opacity:0!important;background:transparent!important;border:0!important;box-shadow:none!important;color:transparent!important;min-height:clamp(28px,3vw,55px)!important;padding:0!important;cursor:pointer!important;overflow:hidden!important}
+header.bea-hero #frisa-author-open{width:clamp(105px,11.4vw,215px)!important}
+header.bea-hero #bea-help-open{width:clamp(90px,9vw,171px)!important}
+header.bea-hero .bea-hero-actions button:focus-visible{opacity:1!important;outline:3px solid #063f59!important;background:#e8fbf6!important;color:#123b53!important}
+@media(max-width:700px){header.bea-hero .bea-hero-actions{left:13.45%!important;top:48.3%!important;gap:3px!important}header.bea-hero #frisa-author-open{width:25vw!important}header.bea-hero #bea-help-open{width:20vw!important}header.bea-hero .bea-hero-actions button{min-height:7vw!important}}
 </style></head><body><header class="bea-hero"><div class="bea-hero-content"><div class="small bea-kicker">🎓 📖 ✒️ 🔬 &nbsp; UNIVERSITY BIOLOGY &amp; SCIENTIFIC ENGLISH</div><h1>BioEnglish <span>Academy</span></h1><p class="bea-subtitle">Biological Sciences &amp; Animal Physiology</p><p>Interactive University Learning Platform</p><p class="small">82 cours bilingues · Anatomie · Physiologie · Recherche</p><p class="small">Developed by Pr Hacène FRIH — Annaba, Algeria</p><div class="bea-hero-actions"><button type="button" class="frisa-author-launch" id="frisa-author-open" aria-haspopup="dialog" aria-controls="frisa-author-overlay">👤 À propos de l’auteur</button><button type="button" id="bea-help-open" class="bea-help-open">🧭 Visite guidée</button></div></div></header><main class="shell"><section class="bea-elegance" id="bea-home" aria-labelledby="bea-elegance-title"><aside class="bea-campus-rail" aria-label="Navigation du campus"><div class="bea-campus-brand">🎓 BioEnglish<br>Academy</div><a href="#bea-home">⌂ Accueil</a><a href="#bea-course-start">▤ Cours de biologie</a><a href="#bea-english-path">◉ Anglais scientifique</a><a href="#bea-writing-lab">✎ Writing Lab</a><a href="#bea-speaking-lab">♫ Speaking Lab</a><a href="#bea-appraisal-lab">⚗ Recherche</a><a href="#frisa-progress">▥ Ma progression</a><small>Learn · Practice · Discover</small></aside>
 <div class="bea-elegance-head"><div><div class="kicker">Votre campus numérique · Your learning campus</div><h2 id="bea-elegance-title">Tout BioEnglish Academy, en un coup d’œil</h2><p>Explorez les cours, développez votre anglais scientifique et entraînez-vous à la recherche.</p></div><a class="bea-elegance-action" href="#bea-course-start">Explorer les 82 chapitres →</a></div>
 <div class="bea-campus-metrics" aria-label="Ressources du campus"><div class="bea-campus-metric"><b>82</b><span>chapitres<br>bilingues</span></div><div class="bea-campus-metric"><b>418</b><span>QCM<br>interactifs</span></div><div class="bea-campus-metric"><b>82</b><span>schémas<br>scientifiques</span></div></div><div class="bea-elegance-grid">
@@ -1017,28 +1026,28 @@ style="display:block;width:100%;height:950px;border:1px solid #c7e4e6;border-rad
 </style>
 <div id="bea-campus-tour-v4" hidden role="dialog" aria-modal="true" aria-labelledby="bea-ct-title">
  <div class="bea-ct-panel" tabindex="-1">
-  <div class="bea-ct-top"><small>🎓 BIOENGLISH ACADEMY · VISITE GUIDÉE</small><button type="button" class="bea-ct-close" id="bea-ct-close" aria-label="Fermer la visite">×</button></div>
+  <div class="bea-ct-top"><small>🎓 BIOENGLISH ACADEMY · GUIDED TOUR</small><button type="button" class="bea-ct-close" id="bea-ct-close" aria-label="Close guided tour">×</button></div>
   <h2 id="bea-ct-title"></h2><p id="bea-ct-desc"></p>
   <div class="bea-ct-preview" id="bea-ct-tip"></div>
   <div class="bea-ct-progress"><div id="bea-ct-fill"></div></div>
-  <div class="bea-ct-actions"><button type="button" id="bea-ct-prev">← Précédent</button><span id="bea-ct-counter"></span><button type="button" id="bea-ct-next">Suivant →</button></div>
+  <div class="bea-ct-actions"><button type="button" id="bea-ct-prev">← Previous</button><span id="bea-ct-counter"></span><button type="button" id="bea-ct-next">Next →</button></div>
  </div>
 </div>
 <script id="bea-campus-tour-v4-script">
 (function(){
 'use strict';
 const steps=[
-{view:'home',title:'Bienvenue dans votre campus scientifique',desc:'BioEnglish Academy réunit les cours de biologie, les exercices d’anglais scientifique et les ateliers de recherche dans une seule plateforme.\nChaque espace s’ouvre séparément : vous ne vous perdrez plus dans une longue page.',tip:'🏠 Vous pouvez revenir à l’accueil à tout moment avec le menu supérieur ou le bouton flottant.'},
-{view:'home',title:'Le tableau de bord Student Campus',desc:'Depuis l’accueil, explorez les ressources et choisissez votre destination : cours, anglais scientifique, rédaction, expression orale, recherche ou statistiques.',tip:'📚 Les indicateurs présentent 82 chapitres bilingues, 418 QCM et 82 schémas scientifiques.'},
-{view:'biology',title:'Cours de biologie : choisir sa discipline',desc:'Ouvrez « Cours de biologie ». À gauche, choisissez une discipline et un chapitre. Utilisez la recherche pour trouver un thème précis.',tip:'🔬 Les disciplines incluent notamment l’anatomie des grandes fonctions, la physiologie, la biologie cellulaire et la génétique.'},
-{view:'biology',title:'Étudier un chapitre en quatre étapes',desc:'Dans chaque chapitre, suivez les quatre étapes : 1. Cours et traduction ; 2. Schéma explicatif ; 3. Vocabulaire ; 4. QCM.',tip:'📈 « Mon parcours universitaire » affiche les chapitres étudiés, les QCM notés et la moyenne. Vous pouvez exporter vos résultats.'},
-{view:'english',title:'Scientific English · A1 à C1',desc:'Sélectionnez votre niveau d’anglais, puis un exercice. Entraînez-vous à comprendre et à employer le vocabulaire scientifique.',tip:'🌍 Les boutons « Check answer », « Listen in English » et « Next exercise » servent à corriger, écouter et poursuivre les exercices. La voix dépend des possibilités du navigateur.'},
-{view:'writing',title:'Scientific Writing Lab',desc:'Apprenez à construire un texte scientifique : consigne, plan de rédaction, expressions utiles et zone de rédaction personnelle.',tip:'✍️ Les exemples chiffrés de cet atelier sont pédagogiques et ne représentent pas des résultats de recherche réels.'},
-{view:'speaking',title:'Scientific Speaking Lab',desc:'Pratiquez l’expression orale scientifique en anglais, notamment pour présenter des notions et communiquer des résultats.',tip:'🎤 Parcourez les activités proposées dans l’espace Speaking Lab.'},
-{view:'research',title:'Recherche et lecture critique',desc:'L’espace Recherche vous aide à examiner la qualité des travaux scientifiques, les méthodes, les biais et les preuves.',tip:'🔎 Utilisez les activités de Critical Appraisal pour développer votre esprit critique.'},
-{view:'statistics',title:'Statistics Lab',desc:'Découvrez les outils statistiques utiles à l’analyse des données scientifiques et à l’interprétation des résultats.',tip:'📊 Choisissez les activités adaptées à votre question de recherche.'},
-{view:'feedback',title:'Donner votre avis',desc:'Vous pouvez évaluer BioEnglish Academy et proposer des améliorations grâce au questionnaire Google Forms déjà intégré au site.',tip:'⭐ Le formulaire peut aussi s’ouvrir dans un nouvel onglet. Vos réponses sont transmises à Google Forms.'},
-{view:'home',title:'Vous êtes prêt à explorer !',desc:'La visite est terminée. Choisissez librement un espace depuis le menu supérieur et revenez à l’accueil quand vous le souhaitez.',tip:'🎓 Bon apprentissage avec BioEnglish Academy !'}
+{view:'home',title:'Welcome to your science campus',desc:'BioEnglish Academy brings together biology courses, scientific English activities, and research workshops in one learning platform. Each learning space opens separately, so you can focus on one subject at a time.',tip:'🏠 You can return to the home dashboard at any time using the top navigation or the floating Home button.'},
+{view:'home',title:'Discover your Student Campus dashboard',desc:'From the dashboard, choose your learning destination: biology, scientific English, academic writing, speaking, research, or statistics.',tip:'📚 The platform offers 82 bilingual chapters, 418 quizzes, and 82 scientific diagrams.'},
+{view:'biology',title:'Choose a biology subject',desc:'Open Biology Courses. On the left, select a discipline and a chapter. Use the search box to find a specific topic.',tip:'🔬 Explore anatomy, physiology, cell biology, genetics, and other biological sciences.'},
+{view:'biology',title:'Learn in four steps',desc:'Each chapter follows four steps: first, the lesson and its translation; second, an explanatory diagram; third, scientific vocabulary; and fourth, a quiz to check your understanding.',tip:'📈 Your learning progress shows studied chapters, completed quizzes, and your average score. You can also export your results.'},
+{view:'english',title:'Scientific English, from A1 to C1',desc:'Choose your English level and select an exercise. Develop scientific vocabulary, reading comprehension, and language skills through biology.',tip:'🌍 Use Check Answer, Listen in English, and Next Exercise to review your answers, listen, and continue. Audio depends on your browser’s speech support.'},
+{view:'writing',title:'Develop your scientific writing',desc:'Learn how to organize a scientific text using writing tasks, a structured plan, useful expressions, and your own writing area.',tip:'✍️ Numerical examples in this workshop are for teaching purposes only, not real research findings.'},
+{view:'speaking',title:'Practice scientific speaking',desc:'Build confidence speaking English about scientific topics, explaining concepts, and presenting findings.',tip:'🎤 Explore the activities in the Scientific Speaking Lab.'},
+{view:'research',title:'Read research critically',desc:'Learn how to evaluate scientific studies, examine methods, recognize potential bias, and interpret evidence.',tip:'🔎 Use Critical Appraisal activities to strengthen your scientific reasoning.'},
+{view:'statistics',title:'Explore the Statistics Lab',desc:'Discover statistical tools used to analyze biological data and interpret scientific results.',tip:'📊 Choose activities that match your research question.'},
+{view:'feedback',title:'Share your feedback',desc:'Tell us about your learning experience and suggest improvements using the Google Forms questionnaire already available on this website.',tip:'⭐ You can also open the questionnaire in a new browser tab.'},
+{view:'home',title:'You are ready to explore!',desc:'Your guided tour is complete. Choose a learning space from the top menu, and return to the dashboard whenever you need to.',tip:'🎓 Enjoy learning with BioEnglish Academy!'}
 ];
 let i=0,priorFocus=null;
 const $=id=>document.getElementById(id);
@@ -1053,7 +1062,7 @@ function draw(){
  $('bea-ct-tip').textContent=x.tip;$('bea-ct-counter').textContent=(i+1)+' / '+steps.length;
  $('bea-ct-fill').style.width=((i+1)/steps.length*100)+'%';
  $('bea-ct-prev').disabled=i===0;
- $('bea-ct-next').textContent=i===steps.length-1?'Terminer ✓':'Suivant →';
+ $('bea-ct-next').textContent=i===steps.length-1?'Finish ✓':'Next →';
 }
 function open(e){if(e){e.preventDefault();e.stopImmediatePropagation()}priorFocus=document.activeElement;i=0;
  const legacy=$('bea-tour-overlay');if(legacy)legacy.hidden=true;
@@ -1107,4 +1116,20 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  });
 })();
 </script>
-</body></html>
+<style id="bea-tour-voice-style">#bea-ct-voicebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px}#bea-ct-voicebar button{background:#e8f6f3;color:#073b56;border:1px solid #b4dbd5;padding:8px 12px;border-radius:9px;font-weight:700;cursor:pointer}#bea-ct-voicebar button[aria-pressed="true"]{background:#073b56;color:#fff}#bea-ct-voice-status{font-size:12px;color:#516a73}</style>
+<script id="bea-tour-voice-v1">(function(){'use strict';
+let enabled=false,paused=false;
+const synth=window.speechSynthesis;
+function say(){if(!enabled||!synth)return;try{synth.cancel();const title=document.getElementById('bea-ct-title');const desc=document.getElementById('bea-ct-desc');if(!title||!desc)return;const u=new SpeechSynthesisUtterance(title.textContent+'. '+desc.textContent);u.lang='en-US';u.rate=.9;u.pitch=1;const v=synth.getVoices().find(v=>v.lang.toLowerCase().startsWith('en'));if(v)u.voice=v;synth.speak(u);paused=false;setStatus('Playing English narration');}catch(e){setStatus('English voice unavailable in this browser');}}
+function setStatus(t){const x=document.getElementById('bea-ct-voice-status');if(x)x.textContent=t;}
+function stop(){if(synth)synth.cancel();paused=false;setStatus('Audio stopped');}
+document.addEventListener('DOMContentLoaded',function(){
+ const panel=document.querySelector('#bea-campus-tour-v4 .bea-ct-panel');const progress=panel&&panel.querySelector('.bea-ct-progress');if(!panel||!progress)return;
+ const bar=document.createElement('div');bar.id='bea-ct-voicebar';bar.innerHTML='<button type="button" id="bea-ct-sound" aria-pressed="false">🔊 Listen in English</button><button type="button" id="bea-ct-pause">⏸ Pause</button><button type="button" id="bea-ct-stop">🔇 Mute</button><span id="bea-ct-voice-status" role="status">Narration off</span>';progress.before(bar);
+ const sound=document.getElementById('bea-ct-sound');sound.addEventListener('click',function(){if(!synth){setStatus('Speech synthesis unavailable');return;}enabled=!enabled;sound.setAttribute('aria-pressed',String(enabled));sound.textContent=enabled?'🔊 English narration on':'🔊 Listen in English';if(enabled)say();else stop();});
+ document.getElementById('bea-ct-pause').addEventListener('click',function(){if(!synth||!enabled)return;if(synth.paused){synth.resume();paused=false;this.textContent='⏸ Pause';setStatus('Playing English narration');}else{synth.pause();paused=true;this.textContent='▶ Resume';setStatus('Paused');}});
+ document.getElementById('bea-ct-stop').addEventListener('click',function(){enabled=false;sound.setAttribute('aria-pressed','false');sound.textContent='🔊 Listen in English';stop();});
+ const observer=new MutationObserver(function(){if(!document.getElementById('bea-campus-tour-v4').hidden){if(enabled)say();}else stop();});observer.observe(document.getElementById('bea-ct-title'),{childList:true});
+ new MutationObserver(function(){if(document.getElementById('bea-campus-tour-v4').hidden)stop();}).observe(document.getElementById('bea-campus-tour-v4'),{attributes:true,attributeFilter:['hidden']});
+ document.getElementById('bea-ct-close').addEventListener('click',stop);document.addEventListener('keydown',function(e){if(e.key==='Escape')stop();});
+});})();</script></body></html>
