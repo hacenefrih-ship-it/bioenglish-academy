@@ -1057,15 +1057,51 @@ function open(e){if(e){e.preventDefault();e.stopImmediatePropagation()}priorFocu
  $('bea-campus-tour-v4').hidden=false;draw();$('bea-ct-close').focus();
 }
 function close(){ $('bea-campus-tour-v4').hidden=true; if(priorFocus&&priorFocus.focus)priorFocus.focus(); }
-document.addEventListener('DOMContentLoaded',function(){
- const launch=$('bea-help-open');if(launch)launch.addEventListener('click',open,true);
- const mobile=$('bea-mobile-tour');if(mobile)mobile.addEventListener('click',open,true);
+function wire(){
  $('bea-ct-close').addEventListener('click',close);
  $('bea-ct-prev').addEventListener('click',()=>{if(i>0){i--;draw()}});
  $('bea-ct-next').addEventListener('click',()=>{if(i===steps.length-1)close();else{i++;draw()}});
  $('bea-campus-tour-v4').addEventListener('click',e=>{if(e.target===$('bea-campus-tour-v4'))close()});
  document.addEventListener('keydown',e=>{if($('bea-campus-tour-v4').hidden)return;if(e.key==='Escape'){e.preventDefault();close()}});
-});
+}
+// Intercept clicks before legacy handlers, including buttons recreated later.
+document.addEventListener('click',function(e){
+ const button=e.target.closest&&e.target.closest('#bea-help-open,.bea-help-open,[data-bea-tour-open]');
+ if(button){e.preventDefault();e.stopImmediatePropagation();open();}
+},true);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire,{once:true});else wire();
+})();
+</script>
+
+<script id="bea-author-dialog-repair-v1">
+(function(){
+ 'use strict';
+ let previousFocus=null;
+ const get=id=>document.getElementById(id);
+ function openAuthor(e){
+  if(e){e.preventDefault();e.stopImmediatePropagation();}
+  const overlay=get('frisa-author-overlay');
+  if(!overlay)return;
+  previousFocus=document.activeElement;
+  overlay.hidden=false;
+  document.body.classList.add('bea-author-is-open');
+  const dialog=get('frisa-author-dialog');if(dialog)dialog.focus();
+ }
+ function closeAuthor(e){
+  if(e){e.preventDefault();e.stopImmediatePropagation();}
+  const overlay=get('frisa-author-overlay');if(overlay)overlay.hidden=true;
+  document.body.classList.remove('bea-author-is-open');
+  if(previousFocus&&previousFocus.focus)previousFocus.focus();
+ }
+ document.addEventListener('click',function(e){
+  if(e.target.closest&&e.target.closest('#frisa-author-open,.frisa-author-launch'))openAuthor(e);
+  else if(e.target.closest&&e.target.closest('#frisa-author-close,.frisa-author-close'))closeAuthor(e);
+  else if(e.target===get('frisa-author-overlay'))closeAuthor(e);
+ },true);
+ document.addEventListener('keydown',function(e){
+  const overlay=get('frisa-author-overlay');
+  if(e.key==='Escape'&&overlay&&!overlay.hidden)closeAuthor(e);
+ });
 })();
 </script>
 </body></html>
