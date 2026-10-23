@@ -813,9 +813,10 @@ style="display:block;width:100%;height:950px;border:1px solid #c7e4e6;border-rad
  }
  function englishText(){
   const panel=document.getElementById('en');if(!panel)return '';
-  const copy=panel.cloneNode(true);
-  copy.querySelectorAll('button,select,input,script,style,[hidden],[aria-hidden="true"]').forEach(e=>e.remove());
-  return copy.innerText||copy.textContent||'';
+  // Read only the actual English lesson paragraphs, never headings,
+  // translation instructions, dropdown labels, or French translations.
+  const paragraphs=Array.from(panel.querySelectorAll('p.scientific'));
+  return paragraphs.map(p=>(p.innerText||p.textContent||'').trim()).filter(Boolean).join(' ');
  }
  function stop(){
   if(available())window.speechSynthesis.cancel();
