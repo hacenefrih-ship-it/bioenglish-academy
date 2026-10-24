@@ -1,0 +1,42 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BioEnglish — Planche anatomique du cœur</title><style>
+*{box-sizing:border-box}body{margin:0;background:#eaf1f7;color:#18364f;font:16px system-ui,Segoe UI,sans-serif}.wrap{max-width:1150px;margin:auto;padding:16px}
+header,.panel{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px #1231}h1{margin:0 0 8px;color:#12517a}
+button{border:1px solid #b7d4e6;border-radius:9px;padding:11px;background:#e7f2fa;color:#174e78;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #f8b846}
+button.active{background:#146a9b;color:white}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:20px}@media(max-width:800px){.layout{grid-template-columns:1fr}}
+.plate{background:#fff;border:1px solid #dbe6ed;border-radius:12px;padding:12px;text-align:center}
+.plate img{display:block;width:100%;max-height:670px;object-fit:contain}.plate img.blurred{filter:blur(12px)}
+.terms{display:grid;gap:7px;max-height:660px;overflow:auto}.term{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:9px;border:1px solid #dbe6ed;border-radius:10px}.term span{flex:1}
+small,.muted{color:#536b7b}.good{color:#087c55}.bad{color:#b92d2d}input{font:inherit;border:1px solid #a6c4d7;border-radius:8px;padding:9px;width:100%}
+.quiz{display:grid;gap:12px}.quiz label{display:grid;gap:5px}.source{font-size:12px;line-height:1.5}
+</style></head><body><main class="wrap">
+<header><h1>🫀 Atlas anatomique — Le cœur humain</h1><p>Véritable planche anatomique légendée, révision bilingue et examen des structures.</p>
+<div class="tabs"><button class="active" data-mode="learn">📖 Apprendre</button><button data-mode="memory">🙈 Mémoriser</button><button data-mode="exam">📝 Examen /20</button></div></header>
+<section class="panel layout"><div><div class="plate">
+<img id="diagram" src="https://commons.wikimedia.org/wiki/Special:FilePath/Heart_diagram-en.svg" alt="Planche anatomique du cœur humain en coupe avec les cavités, les valves et les vaisseaux légendés en anglais">
+<p class="muted" id="imgstatus">Schéma anatomique de référence avec légendes anglaises.</p></div>
+<p class="source">Illustration : <a href="https://commons.wikimedia.org/wiki/File:Heart_diagram-en.svg" target="_blank" rel="noopener">ZooFari, « Heart diagram-en.svg »</a>, licence <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. Image non modifiée. Connexion Internet nécessaire pour charger la planche dans cette version locale.</p>
+</div><div><h2 id="paneltitle">Légendes anatomiques</h2><p class="muted" id="instruction">Cliquez sur 🔊 pour entendre la prononciation.</p><div id="content" class="terms"></div><div id="result" aria-live="polite"></div></div></section>
+</main><script>
+const terms=[["Aorta", "Aorte"], ["Superior vena cava", "Veine cave supérieure"], ["Inferior vena cava", "Veine cave inférieure"], ["Pulmonary artery", "Artère pulmonaire"], ["Pulmonary veins", "Veines pulmonaires"], ["Right atrium", "Oreillette droite"], ["Left atrium", "Oreillette gauche"], ["Right ventricle", "Ventricule droit"], ["Left ventricle", "Ventricule gauche"], ["Tricuspid valve", "Valve tricuspide"], ["Mitral valve", "Valve mitrale"], ["Pulmonary valve", "Valve pulmonaire"], ["Aortic valve", "Valve aortique"], ["Interventricular septum", "Septum interventriculaire"]];
+let mode='learn',answers={};
+const $=x=>document.getElementById(x);
+function speak(t){if(!('speechSynthesis'in window))return alert('Lecture vocale non disponible');speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}
+function render(){let box=$('content');box.replaceChildren();$('result').textContent='';
+$('diagram').classList.toggle('blurred',mode==='exam');
+$('paneltitle').textContent=mode==='learn'?'Légendes anglais / français':mode==='memory'?'Retrouver les noms':'Examen anatomique';
+$('instruction').textContent=mode==='learn'?'Écoutez chaque structure en anglais.':mode==='memory'?'Tentez de retrouver le nom anglais avant de révéler la réponse.':'Écrivez les noms anglais correspondant aux traductions françaises.';
+terms.forEach(([en,fr],i)=>{let d=document.createElement('div');d.className='term';
+if(mode==='exam'){let label=document.createElement('label');label.textContent=(i+1)+'. '+fr;let inp=document.createElement('input');inp.placeholder='Nom anglais';inp.autocomplete='off';inp.value=answers[i]||'';inp.oninput=()=>answers[i]=inp.value;label.append(inp);d.append(label)}
+else{let name=document.createElement('span');name.textContent=mode==='learn'?en+' — '+fr:fr;
+d.append(name);let b=document.createElement('button');b.textContent='🔊';b.title='Écouter '+en;b.onclick=()=>speak(en);d.append(b);
+if(mode==='memory'){let r=document.createElement('button');r.textContent='Révéler';r.onclick=()=>{name.textContent=en+' — '+fr;r.disabled=true};d.append(r)}}box.append(d)});
+if(mode==='exam'){let b=document.createElement('button');b.textContent='Corriger et noter sur 20';b.onclick=grade;$('result').append(b)}
+}
+function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim()}
+function grade(){let correct=0,errors=[];terms.forEach(([en,fr],i)=>{if(norm(answers[i]||'')===norm(en))correct++;else errors.push(fr+' → '+en)});
+let score=(20*correct/terms.length).toFixed(2);$('result').replaceChildren();let h=document.createElement('h3');h.textContent='Résultat : '+score+' / 20 ('+correct+'/'+terms.length+')';$('result').append(h);
+let p=document.createElement('p');p.textContent=errors.length?'À revoir : '+errors.join(' ; '):'Toutes les réponses sont correctes.';$('result').append(p)}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('diagram').onerror=()=>{$('imgstatus').textContent='La planche ne peut pas être chargée. Vérifiez votre connexion Internet ou ouvrez le lien source ci-dessous.'};render();
+</script></body></html>

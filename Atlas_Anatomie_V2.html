@@ -1,0 +1,42 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BioEnglish — Atlas d'anatomie</title>
+<style>
+:root{font-family:system-ui,Segoe UI,sans-serif;color:#18374e;background:#eef3f8}*{box-sizing:border-box}body{margin:0}.wrap{max-width:1080px;margin:22px auto;padding:14px}
+header,.panel{background:white;border-radius:16px;padding:23px;margin-bottom:16px;box-shadow:0 2px 12px #1232}
+h1{margin:0;color:#17527a}h2{margin-top:0}.muted{color:#587084}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+button{font:inherit;cursor:pointer;border:1px solid #cadce7;background:#e9f3f8;color:#174c6b;border-radius:10px;padding:12px}
+button.active{background:#17669a;color:white}button:focus-visible{outline:3px solid #f5aa35}.term{padding:12px;border:1px solid #dbe7ef;border-radius:10px}
+.controls{display:flex;gap:10px;flex-wrap:wrap}.answer{font-weight:bold;color:#137257;margin-top:8px}
+a{color:#17669a}small{color:#657685}
+</style></head><body><main class="wrap"><header><h1>🧠 Atlas anatomique interactif</h1>
+<p>Apprendre les structures des organes en anglais et en français, système par système.</p>
+<small>Les planches anatomiques détaillées sont en cours de préparation. Le cœur dispose déjà d'un schéma interactif; les autres systèmes proposent une première révision de leurs légendes.</small></header>
+<section class="panel"><h2>Choisir un système anatomique</h2><div class="grid" id="systems"></div></section>
+<section class="panel"><h2 id="heading"></h2><p id="description" class="muted"></p><div id="heartlink"></div>
+<div class="controls" style="margin:16px 0"><button id="hide">🙈 Masquer les traductions</button><button id="show">👁️ Afficher les traductions</button><button id="random">🔀 Mélanger</button></div>
+<div id="terms" class="grid"></div></section></main>
+<script>
+const systems=[{"fr": "Circulatoire", "en": "Circulatory system", "emoji": "🫀", "terms": [["Heart", "Cœur"], ["Aorta", "Aorte"], ["Right atrium", "Oreillette droite"], ["Left ventricle", "Ventricule gauche"], ["Pulmonary artery", "Artère pulmonaire"], ["Vena cava", "Veine cave"]]}, {"fr": "Respiratoire", "en": "Respiratory system", "emoji": "🫁", "terms": [["Larynx", "Larynx"], ["Trachea", "Trachée"], ["Bronchus", "Bronche"], ["Bronchiole", "Bronchiole"], ["Alveolus", "Alvéole"], ["Diaphragm", "Diaphragme"]]}, {"fr": "Nerveux", "en": "Nervous system", "emoji": "🧠", "terms": [["Cerebrum", "Cerveau"], ["Cerebellum", "Cervelet"], ["Brainstem", "Tronc cérébral"], ["Spinal cord", "Moelle épinière"], ["Neuron", "Neurone"], ["Optic nerve", "Nerf optique"]]}, {"fr": "Endocrinien", "en": "Endocrine system", "emoji": "⚗️", "terms": [["Pituitary gland", "Hypophyse"], ["Thyroid gland", "Thyroïde"], ["Adrenal gland", "Glande surrénale"], ["Pancreas", "Pancréas"], ["Hypothalamus", "Hypothalamus"]]}, {"fr": "Urinaire / excréteur", "en": "Urinary system", "emoji": "💧", "terms": [["Kidney", "Rein"], ["Renal cortex", "Cortex rénal"], ["Renal medulla", "Médulla rénale"], ["Ureter", "Uretère"], ["Bladder", "Vessie"], ["Urethra", "Urètre"]]}, {"fr": "Digestif", "en": "Digestive system", "emoji": "🍽️", "terms": [["Esophagus", "Œsophage"], ["Stomach", "Estomac"], ["Liver", "Foie"], ["Gallbladder", "Vésicule biliaire"], ["Small intestine", "Intestin grêle"], ["Large intestine", "Gros intestin"]]}, {"fr": "Reproducteur", "en": "Reproductive system", "emoji": "🌱", "terms": [["Ovary", "Ovaire"], ["Uterus", "Utérus"], ["Fallopian tube", "Trompe utérine"], ["Testis", "Testicule"], ["Epididymis", "Épididyme"]]}, {"fr": "Musculosquelettique", "en": "Musculoskeletal system", "emoji": "🦴", "terms": [["Femur", "Fémur"], ["Humerus", "Humérus"], ["Tendon", "Tendon"], ["Ligament", "Ligament"], ["Skeletal muscle", "Muscle squelettique"]]}, {"fr": "Lymphatique et immunitaire", "en": "Lymphatic system", "emoji": "🛡️", "terms": [["Lymph node", "Ganglion lymphatique"], ["Spleen", "Rate"], ["Thymus", "Thymus"], ["Lymphatic vessel", "Vaisseau lymphatique"]]}, {"fr": "Tégumentaire", "en": "Integumentary system", "emoji": "🧴", "terms": [["Epidermis", "Épiderme"], ["Dermis", "Derme"], ["Hair follicle", "Follicule pileux"], ["Sweat gland", "Glande sudoripare"]]}];
+let selected=0,hidden=true,order=[];
+const $=id=>document.getElementById(id);
+function speak(t){if(!('speechSynthesis' in window)){alert('Synthèse vocale indisponible');return}
+speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}
+function draw(){
+$('systems').replaceChildren();
+systems.forEach((s,i)=>{let b=document.createElement('button');b.className=i===selected?'active':'';b.textContent=s.emoji+' '+s.fr+' — '+s.en;b.onclick=()=>{selected=i;hidden=true;order=[];draw()};$('systems').append(b)});
+const s=systems[selected];$('heading').textContent=s.emoji+' '+s.fr+' — '+s.en;
+$('description').textContent='Écoutez le terme, retrouvez sa traduction et révisez les légendes.';
+$('heartlink').replaceChildren();
+if(selected===0){let a=document.createElement('a');a.href='Atlas_Anatomique_Coeur.html';a.textContent='🫀 Ouvrir le schéma interactif du cœur →';a.style.fontWeight='bold';$('heartlink').append(a)}
+if(!order.length)order=s.terms.map((_,i)=>i);
+$('terms').replaceChildren();order.forEach(i=>{let [en,fr]=s.terms[i],d=document.createElement('div');d.className='term';
+let title=document.createElement('strong');title.textContent=en;d.append(title);
+let controls=document.createElement('div');controls.className='controls';controls.style.marginTop='10px';
+let listen=document.createElement('button');listen.textContent='🔊 Écouter';listen.onclick=()=>speak(en);
+let reveal=document.createElement('button');reveal.textContent='Afficher la traduction';let answer=document.createElement('div');answer.className='answer';answer.textContent=fr;answer.hidden=hidden;
+reveal.onclick=()=>{answer.hidden=!answer.hidden;reveal.textContent=answer.hidden?'Afficher la traduction':'Masquer la traduction'};
+controls.append(listen,reveal);d.append(controls,answer);$('terms').append(d)})}
+$('hide').onclick=()=>{hidden=true;draw()};$('show').onclick=()=>{hidden=false;draw()};
+$('random').onclick=()=>{order=systems[selected].terms.map((_,i)=>i).sort(()=>Math.random()-.5);draw()};
+draw();
+</script></body></html>
