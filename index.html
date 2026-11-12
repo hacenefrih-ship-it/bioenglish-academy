@@ -326,7 +326,9 @@ window.BEA_GA4_MEASUREMENT_ID = "G-L2TNEH29VY";
     settings.style.cssText='position:fixed;right:12px;bottom:12px;z-index:999998;padding:7px 10px;border:1px solid #9bb9c5;border-radius:8px;background:#fff;color:#18314a;font:12px system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 9px #102a4322';
     settings.addEventListener('click',function(){showConsent(true);});
     document.body.appendChild(settings);
-    showConsent(false);
+    // Pas de fenêtre imposée à l'arrivée : le visiteur peut consulter le site librement.
+    // GA4 ne démarre que si un consentement positif a déjà été enregistré.
+    if(choice()==='yes') start();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ready);
   else ready();
