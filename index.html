@@ -286,7 +286,10 @@ window.BEA_GA4_MEASUREMENT_ID = "G-L2TNEH29VY";
 (function(){
   'use strict';
   var id=window.BEA_GA4_MEASUREMENT_ID;
-  if(!/^G-[A-Z0-9]{7,15}$/.test(id||'') || id==='G-XXXXXXXXXX') return;
+  var key='bea-analytics-consent-v1';
+  if(!/^G-[A-Z0-9]{7,15}$/.test(id||'')) return;
+  function choice(){try{return localStorage.getItem(key);}catch(e){return null;}}
+  function save(value){try{localStorage.setItem(key,value);}catch(e){}}
   function start(){
     if(window.__beaAnalyticsStarted) return;
     window.__beaAnalyticsStarted=true;
@@ -297,24 +300,36 @@ window.BEA_GA4_MEASUREMENT_ID = "G-L2TNEH29VY";
     var script=document.createElement('script');
     script.async=true;
     script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);
+    script.onerror=function(){console.warn('BioEnglish Academy: chargement Google Analytics impossible (réseau ou bloqueur).');};
     document.head.appendChild(script);
   }
-  function showConsent(){
-    var choice;
-    try{choice=localStorage.getItem('bea-analytics-consent-v1');}catch(e){}
-    if(choice==='yes'){start();return;}
-    if(choice==='no') return;
+  function showConsent(force){
+    var old=document.getElementById('bea-analytics-consent');
+    if(old) old.remove();
+    if(!force && choice()==='yes'){start();return;}
+    if(!force && choice()==='no') return;
     var box=document.createElement('aside');
     box.id='bea-analytics-consent';
     box.setAttribute('role','dialog');
     box.setAttribute('aria-label','Choix des statistiques');
-    box.innerHTML='<strong>Statistiques de fréquentation</strong><div>Autorisez-vous BioEnglish Academy à utiliser Google Analytics pour mesurer les visites ? Ce choix est facultatif.</div><button type="button" class="bea-accept">Accepter</button><button type="button" class="bea-reject">Refuser</button>';
+    box.innerHTML='<strong>Statistiques de fréquentation</strong><div>Autorisez-vous BioEnglish Academy à utiliser Google Analytics pour mesurer les visites ? Ce choix est facultatif et modifiable.</div><button type="button" class="bea-accept">Accepter</button><button type="button" class="bea-reject">Refuser</button>';
     document.body.appendChild(box);
-    box.querySelector('.bea-accept').addEventListener('click',function(){try{localStorage.setItem('bea-analytics-consent-v1','yes');}catch(e){} box.remove();start();});
-    box.querySelector('.bea-reject').addEventListener('click',function(){try{localStorage.setItem('bea-analytics-consent-v1','no');}catch(e){} box.remove();});
+    box.querySelector('.bea-accept').addEventListener('click',function(){save('yes');box.remove();start();});
+    box.querySelector('.bea-reject').addEventListener('click',function(){save('no');box.remove();if(window.__beaAnalyticsStarted) location.reload();});
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',showConsent);
-  else showConsent();
+  function ready(){
+    var settings=document.createElement('button');
+    settings.type='button';
+    settings.id='bea-analytics-preferences';
+    settings.textContent='Confidentialité / statistiques';
+    settings.setAttribute('aria-label','Modifier le consentement aux statistiques');
+    settings.style.cssText='position:fixed;right:12px;bottom:12px;z-index:999998;padding:7px 10px;border:1px solid #9bb9c5;border-radius:8px;background:#fff;color:#18314a;font:12px system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 9px #102a4322';
+    settings.addEventListener('click',function(){showConsent(true);});
+    document.body.appendChild(settings);
+    showConsent(false);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ready);
+  else ready();
 })();
 </script>
 <style id="bea-feedback-popup-fix">
